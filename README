@@ -1,0 +1,56 @@
+gfxboot-turnkey notes
+=====================
+
+- 16x16.fnt, boot.cat, gfxboot.c32, vesamenu.c32
+
+    - pulled in from ubuntu iso (oneric)
+    - could possibly just get them from devel environment (see below)
+
+- isolinux.cfg, gfxboot.cfg, menu.cfg, lang, splash.pcx
+
+    - custom made for turnkey
+
+- bootlogo, en.tr
+
+    - cd minimal (squeeze)
+    - fab-chroot build/root.tmp
+    - apt-get install gfxboot gfxboot-dev make wget
+    - wget .../gfxboot-theme-ubuntu_0.12.2.tar.gz, unpack
+
+    - cd gfxboot-theme-ubuntu
+    - rm po/*.po
+    - hack panel.inc (see diff below, remove all F* except F6)
+    - hack dia_fulloptions.inc (see diff below, rename option, remove options)
+
+    - make
+    - copy out install/{bootlogo, en.tr}
+
+
+diff panel.inc.orig panel.inc
+-----------------------------
+
+39d38
+<       [ .panel.both [ keyF1 0 "F1" /panel.help /panel.help.width /panel.help.update .undef ] ]
+43,47d41
+<
+<       [ .panel.both [ keyF2 0 "F2" /panel.lang /panel.lang.width /panel.lang.update /lang.init ] ]
+<       [ .panel.both [ keyF3 0 "F3" /panel.keymap /panel.keymap.width /panel.keymap.update /keymap.init ] ]
+<       [ .panel.both [ keyF4 0 "F4" /panel.modes /panel.modes.width /panel.modes.update /modes.init ] ]
+<       [ .panel.both [ keyF5 0 "F5" /panel.access /panel.access.width /panel.access.update /access.init ] ]
+
+
+diff dia_fulloptions.inc.orig dia_fulloptions.inc
+-------------------------------------------------
+
+51,54c51
+<     is_live not { /txt_expert_mode } if
+<     /txt_acpi_off /txt_noapic /txt_nolapic /txt_edd_on /txt_nodmraid
+<     /txt_nomodeset
+<     /txt_option_free
+---
+>     /txt_acpi_off /txt_noapic /txt_nolapic
+57c54
+<   xmenu .xm_title /txt_other_options put
+---
+>   xmenu .xm_title /txt_bootoptions put
+
