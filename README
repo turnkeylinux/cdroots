@@ -1,29 +1,30 @@
-gfxboot-turnkey notes
+gfxboot turnkey notes
 =====================
 
-- 16x16.fnt, boot.cat, gfxboot.c32, vesamenu.c32
+- gfxboot-turnkey/isolinux
 
-    - pulled in from ubuntu iso (oneric)
-    - could possibly just get them from devel environment (see below)
+    - bootlogo      # packed archive of src/gfxboot-turnkey-bootlogo
 
-- isolinux.cfg, gfxboot.cfg, menu.cfg, lang, splash.pcx
+- src/gfxboot-turnkey-bootlogo
 
-    - custom made for turnkey
+    - en.tr         # tweaked and compiled gfxboot-theme-ubuntu
+    - bootlogo      # tweaked and compiled gfxboot-theme-ubuntu
 
-- bootlogo, en.tr
+    gfxboot --archive gfxboot-turnkey-bootlogo --pack-archive bootlogo
 
-    - cd minimal (squeeze)
-    - fab-chroot build/root.tmp
-    - apt-get install gfxboot gfxboot-dev make wget
-    - wget .../gfxboot-theme-ubuntu_0.12.2.tar.gz, unpack
+- gfxboot-theme-ubuntu
 
-    - cd gfxboot-theme-ubuntu
-    - rm po/*.po
-    - hack panel.inc (see diff below, remove all F* except F6)
-    - hack dia_fulloptions.inc (see diff below, rename option, remove options)
+    apt-get install gfxboot gfxboot-dev make xz-utils wget
+    wget ..../gfxboot-theme-ubuntu...., unpack
 
-    - make
-    - copy out install/{bootlogo, en.tr}
+    cd gfxboot-theme-ubuntu
+    rm po/*.po
+
+    - tweak panel.inc           # see below
+    - tweak dia_fulloptions.inc # see below
+
+    make
+    copy out install/{bootlogo, en.tr}
 
 
 diff panel.inc.orig panel.inc
