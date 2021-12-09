@@ -55,3 +55,20 @@ diff dia_fulloptions.inc.orig dia_fulloptions.inc
 ---
 >   xmenu .xm_title /txt_bootoptions put
 
+
+Generate gfxboot-turnkey/efi.img and other files
+================================================
+
+Install deps::
+
+   apt update
+   apt install -y grub-efi-amd64-bin grub-imageboot grub-pc-bin grub-pc
+
+Generate grubrescue disk and extract components::
+
+   grub-mkrescue -o /tmp/grub.iso
+   mkdir /tmp/grubcd
+   mount -o loop /tmp/grub.iso /tmp/grubcd
+   cp /tmp/grubcd/efi.img gfxboot-turnkey/
+   cp -R /tmp/grubcd/boot gfxboot-turnkey/
+
